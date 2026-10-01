@@ -1,0 +1,731 @@
+```html
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Happy Birthday, Professor</title>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Italianno&family=Kanit:wght@300;400;500&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+
+            background:
+                radial-gradient(circle at top, #fffdf7 0%, #f5efe3 45%, #e9deca 100%);
+
+            color: #3b3328;
+
+            font-family: "Kanit", sans-serif;
+
+            overflow-x: hidden;
+        }
+
+
+        /* =========================
+           หน้าเปิด
+        ========================= */
+
+        .intro {
+            position: fixed;
+
+            inset: 0;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f8f2e7,
+                    #eee2cc
+                );
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            z-index: 100;
+
+            transition: 1.2s ease;
+        }
+
+
+        .intro.hide {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+
+        .intro-content {
+            text-align: center;
+
+            animation: fadeUp 1.5s ease;
+        }
+
+
+        .small-title {
+            font-family: "Playfair Display", serif;
+
+            font-size: 15px;
+
+            letter-spacing: 5px;
+
+            color: #9b7b42;
+
+            margin-bottom: 25px;
+        }
+
+
+        .intro h1 {
+            font-family: "Playfair Display", serif;
+
+            font-size: clamp(45px, 8vw, 80px);
+
+            font-weight: 500;
+
+            margin: 0;
+
+            color: #4b4032;
+        }
+
+
+        .intro p {
+            margin-top: 15px;
+
+            color: #8b785e;
+
+            font-weight: 300;
+        }
+
+
+        /* =========================
+           ซองจดหมาย
+        ========================= */
+
+        .envelope {
+            width: 230px;
+            height: 150px;
+
+            margin: 40px auto;
+
+            position: relative;
+
+            cursor: pointer;
+
+            perspective: 800px;
+        }
+
+
+        .envelope-body {
+            position: absolute;
+
+            width: 100%;
+            height: 100%;
+
+            background: #c9a96e;
+
+            border-radius: 5px;
+
+            box-shadow:
+                0 15px 35px rgba(70, 50, 25, 0.2);
+
+            z-index: 2;
+        }
+
+
+        .envelope-body::before {
+            content: "";
+
+            position: absolute;
+
+            inset: 0;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    transparent 50%,
+                    #b8955a 50%
+                );
+
+            clip-path: polygon(0 0, 50% 50%, 100% 0);
+
+            opacity: 0.8;
+        }
+
+
+        .letter {
+            position: absolute;
+
+            width: 85%;
+            height: 90px;
+
+            background: #fffdf8;
+
+            left: 7.5%;
+            top: 10px;
+
+            border-radius: 3px;
+
+            transition: 0.8s ease;
+
+            z-index: 1;
+
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+
+        .envelope.open .letter {
+            transform: translateY(-70px);
+
+            z-index: 3;
+        }
+
+
+        .seal {
+            position: absolute;
+
+            width: 45px;
+            height: 45px;
+
+            border-radius: 50%;
+
+            background: #8d6b37;
+
+            color: #f9f2e4;
+
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            left: 50%;
+            top: 50%;
+
+            transform: translate(-50%, -50%);
+
+            font-family: "Playfair Display", serif;
+
+            z-index: 4;
+
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+
+            transition: 0.5s;
+        }
+
+
+        .envelope.open .seal {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.5);
+        }
+
+
+        .click-text {
+            color: #8d6b37;
+
+            font-size: 14px;
+
+            letter-spacing: 1px;
+        }
+
+
+        /* =========================
+           เนื้อหาหลัก
+        ========================= */
+
+        .main {
+            max-width: 850px;
+
+            margin: auto;
+
+            padding: 80px 25px;
+
+            text-align: center;
+
+            opacity: 0;
+
+            transform: translateY(30px);
+
+            transition: 1.5s ease;
+        }
+
+
+        .main.show {
+            opacity: 1;
+
+            transform: translateY(0);
+        }
+
+
+        .gold-line {
+            width: 70px;
+
+            height: 1px;
+
+            background: #b9975b;
+
+            margin: 20px auto 30px;
+        }
+
+
+        .main-title {
+            font-family: "Playfair Display", serif;
+
+            font-size: clamp(42px, 7vw, 70px);
+
+            font-weight: 500;
+
+            color: #463b2d;
+
+            margin: 0;
+        }
+
+
+        .subtitle {
+            font-family: "Playfair Display", serif;
+
+            font-size: 21px;
+
+            color: #a1814b;
+
+            letter-spacing: 2px;
+
+            margin-top: 5px;
+        }
+
+
+        /* =========================
+           รูปอาจารย์
+        ========================= */
+
+        .photo-frame {
+            width: 240px;
+            height: 300px;
+
+            margin: 45px auto;
+
+            padding: 8px;
+
+            background: #d0b078;
+
+            box-shadow:
+                0 15px 35px rgba(60, 45, 25, 0.18);
+        }
+
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            display: block;
+
+            border: 4px solid #f8f2e7;
+        }
+
+
+        /* =========================
+           คำอวยพร
+        ========================= */
+
+        .message {
+            max-width: 650px;
+
+            margin: 50px auto;
+
+            padding: 40px 35px;
+
+            background: rgba(255,255,255,0.55);
+
+            border: 1px solid rgba(180,145,85,0.35);
+
+            box-shadow:
+                0 15px 40px rgba(80,60,30,0.08);
+
+            backdrop-filter: blur(5px);
+        }
+
+
+        .message h2 {
+            font-family: "Playfair Display", serif;
+
+            font-size: 28px;
+
+            font-weight: 500;
+
+            color: #806437;
+
+            margin-top: 0;
+        }
+
+
+        .message p {
+            font-size: 17px;
+
+            line-height: 2;
+
+            font-weight: 300;
+
+            color: #554a3c;
+        }
+
+
+        .signature {
+            margin-top: 30px;
+
+            font-family: "Italianno", cursive;
+
+            font-size: 38px;
+
+            color: #9b783e;
+        }
+
+
+        /* =========================
+           Footer
+        ========================= */
+
+        footer {
+            margin-top: 70px;
+
+            color: #9b8a70;
+
+            font-size: 13px;
+
+            letter-spacing: 1px;
+        }
+
+
+        /* =========================
+           พลุ / ประกาย
+        ========================= */
+
+        .spark {
+            position: fixed;
+
+            pointer-events: none;
+
+            font-size: 18px;
+
+            animation: sparkle 2s ease-out forwards;
+
+            z-index: 50;
+        }
+
+
+        @keyframes sparkle {
+
+            0% {
+                opacity: 0;
+
+                transform:
+                    translate(0,0)
+                    scale(0.3);
+            }
+
+            30% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+
+                transform:
+                    translate(var(--x), var(--y))
+                    scale(1.3);
+            }
+        }
+
+
+        @keyframes fadeUp {
+
+            from {
+                opacity: 0;
+
+                transform: translateY(25px);
+            }
+
+            to {
+                opacity: 1;
+
+                transform: translateY(0);
+            }
+        }
+
+
+        /* =========================
+           มือถือ
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            .intro h1 {
+                font-size: 48px;
+            }
+
+            .envelope {
+                width: 200px;
+                height: 130px;
+            }
+
+            .photo-frame {
+                width: 210px;
+                height: 270px;
+            }
+
+            .message {
+                padding: 30px 20px;
+            }
+
+            .message p {
+                font-size: 16px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         หน้าเปิด
+    ========================= -->
+
+    <section class="intro" id="intro">
+
+        <div class="intro-content">
+
+            <div class="small-title">
+                วันนี้อะไรเอ่ย ?
+            </div>
+
+            <h1>
+                Happy Birthday
+            </h1>
+
+            <p>
+                มีของเล็กๆน้อยๆมาฝากอาจารย์ค้าบบ
+            </p>
+
+
+            <div
+                class="envelope"
+                id="envelope"
+                onclick="openEnvelope()"
+            >
+
+                <div class="letter"></div>
+
+                <div class="envelope-body"></div>
+
+                <div class="seal">
+                    ✦
+                </div>
+
+            </div>
+
+
+            <div class="click-text">
+                แตะที่ซองเพื่อเปิด
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         เนื้อหาหลัก
+    ========================= -->
+
+    <main class="main" id="main">
+
+
+        <div class="gold-line"></div>
+
+
+        <h1 class="main-title">
+            Happy Birthday
+        </h1>
+
+
+        <div class="Pattaya">
+            To คุณแม่ของน้องกราฟฟิค
+        </div>
+
+
+
+        <!-- รูปอาจารย์ -->
+
+        <div class="photo-frame">
+
+            <img
+                src="teacher.jpg"
+                alt="รูปอาจารย์"
+            >
+
+        </div>
+
+
+
+        <!-- คำอวยพร -->
+
+        <section class="Charmonman">
+
+            <h2>
+                Happy Birthday KARBB JARN EEPP
+            </h2>
+
+
+            <p>
+
+                ขอให้อาจารย์มีความสุขมากๆๆ สุขภาพร่างกายแข็งแรง กิจการเฮงๆ รวยแล้วรวยอีกก
+
+                
+
+            
+        
+                <br><br>
+
+                ขอบคุณที่ใหผมได้ลองเป็น TA แล้วได้ลองอะไรใหม่ๆที่ให้ประสบการณ์นอกเหนือจากเนื้อหาในการเรียนคับจารย์  
+                ขอบคุณค้าบบ
+
+            </p>
+
+
+            <div class="Pattaya">
+                รักจารย์ค้าบบ
+            </div>
+
+        </section>
+
+
+
+        <footer>
+           GRAPHIX
+        </footer>
+
+
+    </main>
+
+
+
+    <script>
+
+        function openEnvelope() {
+
+            const envelope =
+                document.getElementById("envelope");
+
+            const intro =
+                document.getElementById("intro");
+
+            const main =
+                document.getElementById("main");
+
+
+            envelope.classList.add("open");
+
+
+            // รอให้ซองเปิดก่อน
+            setTimeout(() => {
+
+                intro.classList.add("hide");
+
+                main.classList.add("show");
+
+                createFireworks();
+
+            }, 900);
+
+        }
+
+
+
+        function createFireworks() {
+
+            const symbols = [
+                "✦",
+                "✧",
+                "✦",
+                "⋆",
+                "✧"
+            ];
+
+
+            for (let i = 0; i < 35; i++) {
+
+                const spark =
+                    document.createElement("div");
+
+                spark.className = "spark";
+
+                spark.innerHTML =
+                    symbols[
+                        Math.floor(
+                            Math.random() * symbols.length
+                        )
+                    ];
+
+
+                spark.style.left =
+                    (50 + (Math.random() - 0.5) * 30)
+                    + "%";
+
+
+                spark.style.top =
+                    (45 + (Math.random() - 0.5) * 20)
+                    + "%";
+
+
+                spark.style.setProperty(
+                    "--x",
+                    ((Math.random() - 0.5) * 350) + "px"
+                );
+
+
+                spark.style.setProperty(
+                    "--y",
+                    ((Math.random() - 0.5) * 350) + "px"
+                );
+
+
+                spark.style.animationDelay =
+                    Math.random() * 0.8 + "s";
+
+
+                document.body.appendChild(spark);
+
+
+                setTimeout(() => {
+
+                    spark.remove();
+
+                }, 3000);
+
+            }
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>
+```
